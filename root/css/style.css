@@ -1,0 +1,52 @@
+
+body{background:black;}
+footer p, header h2{color:#FFD700; text-align:center; font-family:'Luckiest Guy'; font-size:20px;}
+header h2{font-size:30px;}
+
+h1{
+	height:80px;
+	position:relative;	
+	width: 40%;
+	margin: 0 auto;
+	
+}
+
+h1 span{
+	text-align:center;
+	font-size:60px;
+	font-family: 'Luckiest Guy';
+	
+	background: -webkit-linear-gradient(#030303, #e5e5e5);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+#maingame{
+	
+	border: 6px solid #FFD700;
+	margin: 0 auto;
+	display:block;		
+}
+
+.tletter{
+	animation:letterjump 4.5s infinite;
+	padding-top:20px;
+	display:inline-block;
+	position:absolute;
+}
+.tletter#one{left:50px; animation-delay:0s;}
+.tletter#two{left:110px; animation-delay:0.3s;} /*E is short*/
+.tletter#three{left:150px; animation-delay:0.6s;}
+.tletter#four{left:200px; animation-delay:0.9s;}
+.tletter#five{left:250px; animation-delay:1.2s;}
+.tletter#six{left:300px; animation-delay:1.5s;}
+.tletter#seven{left:350px; animation-delay:1.8s;}
+.tletter#eight{left:400px; animation-delay:2.1s;}
+.tletter#nine{left:450px; animation-delay:2.4s;}
+.tletter#ten{left:500px; animation-delay:2.7s;}
+
+@keyframes letterjump{
+	0%{padding-top:20px;}
+	10%{padding-top:0px;}
+	20%{padding-top:20px;}
+}	
