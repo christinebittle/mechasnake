@@ -36,6 +36,8 @@ var xmin;
 var xmax;
 var ymin;
 var ymax;
+var xoffset;
+var yoffset;
 
 function resetGame(){
 	
@@ -84,6 +86,8 @@ function resetGame(){
 	ymin = 0; 
 	ymax = Math.floor(gh/32); //max height in 32px unit
 	
+	xoffset = (gw/2)%32;
+	yoffset = (gh/2)%32;
 	
 	game.width = gw;
 	game.height = gh;
@@ -94,7 +98,7 @@ function resetGame(){
 //console.log(direction);
 
 window.addEventListener("keypress", function(e){
-	console.log(e);
+	//console.log(e);
 	switch(e.key){
 		case 'w': {direction="U"; break;}
 		case 'W': {direction="U"; break;}
@@ -127,7 +131,7 @@ function animate(){
 	
 	
 	
-	if(timecounter%10==0){
+	if(timecounter%10==1){
 		segment = [xpos,ypos];
 		end = collisiondetection(trail, segment, segments); //returns true if collision found
 		trail[gamesteps] = segment;
@@ -139,10 +143,11 @@ function animate(){
 			case 'L' : {xpos -= snakeheadw; break;}
 		}
 		
-		
-		//console.log('xsegment: '+segment[0]+' xcoords '+(coords[0] +15));
-		//console.log('ysegment: '+segment[1]+' ycoords '+((coords[1])+15));
-		if(closeTo(segment[0],coords[0]+15) && closeTo(segment[1],coords[1]+15)){
+		//console.log('XOFF:'+xoffset);
+		//console.log('xsegment: '+segment[0]+' xcoords '+(coords[0]+xoffset)); //theory
+		//console.log('YOFF: '+yoffset);
+		//console.log('ysegment: '+segment[1]+' ycoords '+((coords[1]+yoffset))); //NO Y OFFSET
+		if(closeTo(segment[0],coords[0]+xoffset) && closeTo(segment[1],coords[1]+yoffset)){ //?????
 			console.log('yum yum!');
 			segments=segments+3;	
 			newgoodie=1;
@@ -197,9 +202,10 @@ function showgameover(ctx){
 }
 
 function isgoodieinvalid(invalidspots,goodiex,goodiey){
-	
+	//four and eight?
 	for(var i=0; i<invalidspots.length; i++){
-		if (closeTo(trail[i][0],(goodiex*32)+4) && closeTo(trail[i][1],(goodiey*32)+8)) return true;
+		//ignore for now
+		if (closeTo(trail[i][0],(goodiex*32)+xoffset) && closeTo(trail[i][1],(goodiey*32)+yoffset)) return true;
 	}
 	return false;
 }
@@ -224,8 +230,11 @@ function schedulegoodie(ctx, trail, segments){
 	
 	//console.log('passing data of '+goodiex+' and '+goodiey);
 	goodiepic = goodies[getRandomInt(goodies.length)];
+	//prev : 4 and 8
 	
-	return [(goodiex*32)+4,(goodiey*32)+8,goodiepic];
+	
+	
+	return [(goodiex*32),(goodiey*32),goodiepic];
 }
 
 function placegoodie(arr){
@@ -235,9 +244,14 @@ function placegoodie(arr){
 	
 	//console.log('drawing goodie at '+arr[0]+' '+arr[1]);
 	
-	ctx.drawImage(gid(arr[2]),arr[0],arr[1]); //strange offset.. fine
+	ctx.drawImage(gid(arr[2]),arr[0]+(xoffset/2),arr[1]+(yoffset/2)); //strange offset.. fine
 	
-	
+	/*
+	ctx.fillStyle="#5070F6";
+	ctx.beginPath(); //testbubble
+	ctx.arc((goodiex*32)+16,(goodiey*32)+16,6,0,2*Math.PI);
+	ctx.fill();
+	*/
 }
 
 
